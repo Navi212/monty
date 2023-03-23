@@ -89,37 +89,6 @@ Monty byte code files
 
 Files containing Monty byte codes usually have the .m extension. Most of the industry uses this standard but it is not required by the specification of the language. There is not more than one instruction per line. There can be any number of spaces before or after the opcode and its argument:
 
-julien@ubuntu:~/monty$ cat -e bytecodes/000.m
-push 0$
-push 1$
-push 2$
-  push 3$
-                   pall    $
-push 4$
-    push 5    $
-      push    6        $
-pall$
-julien@ubuntu:~/monty$
-
-Monty byte code files can contain blank lines (empty or made of spaces only, and any additional text after the opcode or its required argument is not taken into account:
-
-julien@ubuntu:~/monty$ cat -e bytecodes/001.m
-push 0 Push 0 onto the stack$
-push 1 Push 1 onto the stack$
-$
-push 2$
-  push 3$
-                   pall    $
-$
-$
-                           $
-push 4$
-$
-    push 5    $
-      push    6        $
-$
-pall This is the end of our program. Monty is awesome!$
-julien@ubuntu:~/monty$
 
 The monty program
 
@@ -160,24 +129,6 @@ The pall opcode
 
 The opcode pall prints all the values on the stack, starting from the top of the stack.
 
-    Usage pall
-    Format: see example
-    If the stack is empty, don’t print anything
-
-julien@ubuntu:~/monty$ cat -e bytecodes/00.m
-push 1$
-push 2$
-push 3$
-pall$
-julien@ubuntu:~/monty$ ./monty bytecodes/00.m
-3
-2
-1
-julien@ubuntu:~/monty$
-
-
-
-
 
 1. pint
 
@@ -189,21 +140,6 @@ The opcode pint prints the value at the top of the stack, followed by a new line
 
     Usage: pint
     If the stack is empty, print the error message L<line_number>: can't pint, stack empty, followed by a new line, and exit with the status EXIT_FAILURE
-
-julien@ubuntu:~/monty$ cat bytecodes/06.m 
-push 1
-pint
-push 2
-pint
-push 3
-pint
-julien@ubuntu:~/monty$ ./monty bytecodes/06.m 
-1
-2
-3
-julien@ubuntu:~/monty$ 
-
-
 
 
 2. pop
@@ -217,27 +153,6 @@ The opcode pop removes the top element of the stack.
     Usage: pop
     If the stack is empty, print the error message L<line_number>: can't pop an empty stack, followed by a new line, and exit with the status EXIT_FAILURE
 
-julien@ubuntu:~/monty$ cat bytecodes/07.m 
-push 1
-push 2
-push 3
-pall
-pop
-pall
-pop
-pall
-pop
-pall
-julien@ubuntu:~/monty$ ./monty bytecodes/07.m 
-3
-2
-1
-2
-1
-1
-julien@ubuntu:~/monty$ 
-
-
 
 
 3. swap
@@ -250,23 +165,6 @@ The opcode swap swaps the top two elements of the stack.
 
     Usage: swap
     If the stack contains less than two elements, print the error message L<line_number>: can't swap, stack too short, followed by a new line, and exit with the status EXIT_FAILURE
-
-julien@ubuntu:~/monty$ cat bytecodes/09.m 
-push 1
-push 2
-push 3
-pall
-swap
-pall
-julien@ubuntu:~/monty$ ./monty bytecodes/09.m 
-3
-2
-1
-2
-3
-1
-julien@ubuntu:~/monty$ 
-
 
 
 
@@ -283,26 +181,6 @@ The opcode add adds the top two elements of the stack.
     The result is stored in the second top element of the stack, and the top element is removed, so that at the end:
         The top element of the stack contains the result
         The stack is one element shorter
-
-julien@ubuntu:~/monty$ cat bytecodes/12.m 
-push 1
-push 2
-push 3
-pall
-add
-pall
-
-julien@ubuntu:~/monty$ ./monty bytecodes/12.m 
-3
-2
-1
-5
-1
-julien@ubuntu:~/monty$
-
-
-
-
 
 5. nop
 
@@ -330,20 +208,6 @@ The opcode sub subtracts the top element of the stack from the second top elemen
     The result is stored in the second top element of the stack, and the top element is removed, so that at the end:
         The top element of the stack contains the result
         The stack is one element shorter
-
-julien@ubuntu:~/monty$ cat bytecodes/19.m 
-push 1
-push 2
-push 10
-push 3
-sub
-pall
-julien@ubuntu:~/monty$ ./monty bytecodes/19.m 
-7
-2
-1
-julien@ubuntu:~/monty$
-
 
 
 
@@ -441,26 +305,6 @@ The opcode pstr prints the string starting at the top of the stack, followed by 
         the value of the element is not in the ascii table
     If the stack is empty, print only a new line
 
-julien@ubuntu:~/monty$ cat bytecodes/31.m 
-push 1
-push 2
-push 3
-push 4
-push 0
-push 110
-push 0
-push 108
-push 111
-push 111
-push 104
-push 99
-push 83
-pstr
-julien@ubuntu:~/monty$ ./monty bytecodes/31.m 
-School
-julien@ubuntu:~/monty$ 
-
-
 
 
 13. rotl
@@ -474,45 +318,6 @@ The opcode rotl rotates the stack to the top.
     Usage: rotl
     The top element of the stack becomes the last one, and the second top element of the stack becomes the first one
     rotl never fails
-
-julien@ubuntu:~/monty$ cat bytecodes/35.m 
-push 1
-push 2
-push 3
-push 4
-push 5
-push 6
-push 7
-push 8
-push 9
-push 0
-pall
-rotl
-pall
-julien@ubuntu:~/monty$ ./monty bytecodes/35.m 
-0
-9
-8
-7
-6
-5
-4
-3
-2
-1
-9
-8
-7
-6
-5
-4
-3
-2
-1
-0
-julien@ubuntu:~/monty$ 
-
-
 
 
 
@@ -553,45 +358,6 @@ When switching mode:
     The top of the stack becomes the front of the queue
     The front of the queue becomes the top of the stack
 
-julien@ubuntu:~/monty$ cat bytecodes/47.m
-queue
-push 1
-push 2
-push 3
-pall
-stack
-push 4
-push 5
-push 6
-pall
-add
-pall
-queue
-push 11111
-add
-pall
-julien@ubuntu:~/monty$ ./monty bytecodes/47.m
-1
-2
-3
-6
-5
-4
-1
-2
-3
-11
-4
-1
-2
-3
-15
-1
-2
-3
-11111
-julien@ubuntu:~/monty$ 
-
 
 
 
@@ -603,11 +369,6 @@ Write a Brainf*ck script that prints School, followed by a new line.
     You can install the bf interpreter to test your code: sudo apt-get install bf
     Read: Brainf*ck
 
-julien@ubuntu:~/monty/bf$ bf 1000-school.bf 
-School
-julien@ubuntu:~/monty/bf$ 
-
-
 
 17. Add two digits
 
@@ -615,12 +376,6 @@ Add two digits given by the user.
 
     Read the two digits from stdin, add them, and print the result
     The total of the two digits with be one digit-long (<10)
-
-julien@ubuntu:~/monty/bf$ bf ./1001-add.bf
-81
-9julien@ubuntu:~/monty/bf$
-
-
 
 
 
@@ -630,11 +385,6 @@ Multiply two digits given by the user.
 
     Read the two digits from stdin, multiply them, and print the result
     The result of the multiplication will be one digit-long (<10)
-
-julien@ubuntu:~/monty/bf$ bf 1002-mul.bf
-24
-8julien@ubuntu:~/monty/bf$
-
 
 
 
@@ -646,10 +396,3 @@ Multiply two digits given by the user.
 
 Read the two digits from stdin, multiply them, and print the result, followed by a new 
 line
-
-julien@ubuntu:~/monty/bf$ bf 1003-mul.bf 
-77
-49
-julien@ubuntu:~/monty/bf$ 
-
-
